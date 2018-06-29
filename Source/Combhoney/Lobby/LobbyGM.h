@@ -14,7 +14,8 @@ class COMBHONEY_API ALobbyGM : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	
+public:
+	ALobbyGM();
 	
 	
 };

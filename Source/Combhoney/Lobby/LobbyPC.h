@@ -14,7 +14,19 @@ class COMBHONEY_API ALobbyPC : public APlayerController
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void BeginPlay() override;
+
+	void SetupWidget();
+
+	UUserWidget* MakeWidget(FString path);
 	
-	
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class ULobbyUserWidgetBase* LobbyWidget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UInventoryUserWidgetBase* InventoryWidget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UShopUserWidgetBase* ShopWidget;
 };
