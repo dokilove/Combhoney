@@ -18,8 +18,6 @@ public:
 	virtual void BeginPlay() override;
 
 	void SetupWidget();
-
-	UUserWidget* MakeWidget(FString path);
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class ULobbyUserWidgetBase* LobbyWidget;

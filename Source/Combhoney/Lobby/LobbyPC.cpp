@@ -4,6 +4,7 @@
 #include "Lobby/LobbyUserWidgetBase.h"
 #include "Lobby/InventoryUserWidgetBase.h"
 #include "Lobby/ShopUserWidgetBase.h"
+#include "MyStatic/MyStaticLibrary.h"
 
 void ALobbyPC::BeginPlay()
 {
@@ -12,21 +13,12 @@ void ALobbyPC::BeginPlay()
 
 void ALobbyPC::SetupWidget()
 {
-	LobbyWidget = Cast<ULobbyUserWidgetBase>(MakeWidget(TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/LobbyUserWidget.LobbyUserWidget_C'")));
+	LobbyWidget = Cast<ULobbyUserWidgetBase>(UMyStaticLibrary::MakeWidget(this, TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/LobbyUserWidget.LobbyUserWidget_C'"), false));
 
-	InventoryWidget = Cast<UInventoryUserWidgetBase>(MakeWidget(TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/InventoryUserWidget.InventoryUserWidget_C'")));
+	InventoryWidget = Cast<UInventoryUserWidgetBase>(UMyStaticLibrary::MakeWidget(this,TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/InventoryUserWidget.InventoryUserWidget_C'")));
 
-	ShopWidget = Cast<UShopUserWidgetBase>(MakeWidget(TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/ShopUserWidget.ShopUserWidget_C'")));
-}
+	ShopWidget = Cast<UShopUserWidgetBase>(UMyStaticLibrary::MakeWidget(this, TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/ShopUserWidget.ShopUserWidget_C'")));
 
-UUserWidget* ALobbyPC::MakeWidget(FString path)
-{
-	UUserWidget* ResultWidget = nullptr;
-	FStringClassReference WidgetRef(path);
-	if (UClass* WidgetClass = WidgetRef.TryLoadClass<UUserWidget>())
-	{
-		ResultWidget = CreateWidget<UUserWidget>(this, WidgetClass);
-		ResultWidget->AddToViewport();
-	}
-	return ResultWidget;
+	bShowMouseCursor = true;
+	SetInputMode(FInputModeGameAndUI());
 }
