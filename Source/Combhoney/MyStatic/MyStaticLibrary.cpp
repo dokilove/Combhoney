@@ -4,7 +4,7 @@
 #include "UserWidget.h"
 #include "GameFramework/PlayerController.h"
 
-class UUserWidget* UMyStaticLibrary::MakeWidget(APlayerController* PC, FString path, bool bIsCollapsed)
+class UUserWidget* UMyStaticLibrary::MakeUserWidget(APlayerController* PC, FString path, bool bIsCollapsed)
 {
 	UUserWidget* ResultWidget = nullptr;
 	FStringClassReference WidgetRef(path);

@@ -13,11 +13,11 @@ void ALobbyPC::BeginPlay()
 
 void ALobbyPC::SetupWidget()
 {
-	LobbyWidget = Cast<ULobbyUserWidgetBase>(UMyStaticLibrary::MakeWidget(this, TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/LobbyUserWidget.LobbyUserWidget_C'"), false));
+	LobbyWidget = UMyStaticLibrary::MakeCustomWidget<ULobbyUserWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/LobbyUserWidget.LobbyUserWidget_C'"), false);
 
-	InventoryWidget = Cast<UInventoryUserWidgetBase>(UMyStaticLibrary::MakeWidget(this,TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/InventoryUserWidget.InventoryUserWidget_C'")));
+	InventoryWidget = UMyStaticLibrary::MakeCustomWidget<UInventoryUserWidgetBase>(this,TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/InventoryUserWidget.InventoryUserWidget_C'"));
 
-	ShopWidget = Cast<UShopUserWidgetBase>(UMyStaticLibrary::MakeWidget(this, TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/ShopUserWidget.ShopUserWidget_C'")));
+	ShopWidget = UMyStaticLibrary::MakeCustomWidget<UShopUserWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Lobby/ShopUserWidget.ShopUserWidget_C'"));
 
 	bShowMouseCursor = true;
 	SetInputMode(FInputModeGameAndUI());
