@@ -17,6 +17,7 @@ void AHttpService::Register(FRequest_Register RegisterInfo)
 	GetJsonStringFromStruct<FRequest_Register>(RegisterInfo, ContentJsonString);
 	UE_LOG(LogTemp, Warning, TEXT("ContentJsonString %s"), *ContentJsonString);
 	TSharedRef<IHttpRequest> Request = PostRequest("/register", ContentJsonString);
+	//TSharedRef<IHttpRequest> Request = PostRequest("/login", ContentJsonString);
 	//TSharedRef<IHttpRequest> Request = GetRequest("/login");
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::RegisterResponse);
 	Send(Request);
@@ -44,9 +45,9 @@ void AHttpService::BeginPlay()
 	Http = &FHttpModule::Get();
 	
 	FRequest_Register RegisterInfo;
-	RegisterInfo.id = TEXT("UnrealUser");
+	RegisterInfo.id = TEXT("shim");
 	RegisterInfo.nickname = TEXT("UENickname");
-	RegisterInfo.password = TEXT("123456");
+	RegisterInfo.password = TEXT("1234");
 	Register(RegisterInfo);
 }
 
