@@ -15,7 +15,6 @@ void AHttpService::Register(FRequest_Register RegisterInfo)
 {
 	FString ContentJsonString;
 	GetJsonStringFromStruct<FRequest_Register>(RegisterInfo, ContentJsonString);
-	UE_LOG(LogTemp, Warning, TEXT("ContentJsonString %s"), *ContentJsonString);
 	TSharedRef<IHttpRequest> Request = PostRequest("/register", ContentJsonString);
 	//TSharedRef<IHttpRequest> Request = PostRequest("/login", ContentJsonString);
 	//TSharedRef<IHttpRequest> Request = GetRequest("/login");
@@ -45,7 +44,7 @@ void AHttpService::BeginPlay()
 	Http = &FHttpModule::Get();
 	
 	FRequest_Register RegisterInfo;
-	RegisterInfo.id = TEXT("shim");
+	RegisterInfo.id = TEXT("UE4Account");
 	RegisterInfo.nickname = TEXT("UENickname");
 	RegisterInfo.password = TEXT("1234");
 	Register(RegisterInfo);
@@ -91,6 +90,7 @@ TSharedRef<IHttpRequest> AHttpService::PostRequest(FString Subroute, FString Con
 {
 	TSharedRef<IHttpRequest> Request = RequestWithRoute(Subroute);
 	Request->SetVerb("POST");
+	UE_LOG(LogTemp, Warning, TEXT("ContentJsonString %s"), *ContentJsonString);
 	Request->SetContentAsString(ContentJsonString);
 	return Request;
 }
