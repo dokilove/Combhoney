@@ -1,0 +1,8 @@
+idx 2 1103 value 30 level 20  upgrade_value 3 
+
+final value 30 + 60;
+
+upgrade_baseprice 30
+
+
+upgrade_price 600 current level * baseprice 20 * 30
