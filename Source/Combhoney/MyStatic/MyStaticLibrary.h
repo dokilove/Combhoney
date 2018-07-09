@@ -22,4 +22,6 @@ public:
 	{
 		return Cast<T>(MakeUserWidget(PC, path, bIsCollapesd));
 	}
+
+	static class AHttpService* GetHttpService();
 };

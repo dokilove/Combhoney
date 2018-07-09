@@ -37,6 +37,21 @@ void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 }
 
+void AHttpService::Login(FRequest_Login LoginInfo)
+{
+	FString ContentJsonString;
+	GetJsonStringFromStruct<FRequest_Login>(LoginInfo, ContentJsonString);
+	TSharedRef<IHttpRequest> Request = PostRequest("/login", ContentJsonString);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse);
+	Send(Request);
+}
+
+void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+	
+	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
+}
+
 // Called when the game starts or when spawned
 void AHttpService::BeginPlay()
 {

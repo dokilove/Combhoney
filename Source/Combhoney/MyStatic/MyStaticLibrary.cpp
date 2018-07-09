@@ -3,6 +3,7 @@
 #include "MyStaticLibrary.h"
 #include "UserWidget.h"
 #include "GameFramework/PlayerController.h"
+#include "Utilities/HttpService.h"
 
 class UUserWidget* UMyStaticLibrary::MakeUserWidget(APlayerController* PC, FString path, bool bIsCollapsed)
 {
@@ -24,4 +25,9 @@ class UUserWidget* UMyStaticLibrary::MakeUserWidget(APlayerController* PC, FStri
 	return ResultWidget;
 }
 
+AHttpService * UMyStaticLibrary::GetHttpService()
+{
+	AHttpService* HttpService = nullptr;
 
+	return nullptr;
+}

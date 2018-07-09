@@ -1,8 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "EntranceWidgetBase.h"
 #include "Components/EditableTextBox.h"
 #include "Components/Button.h"
+#include "Utilities/HttpService.h"
 
 void UEntranceWidgetBase::NativeConstruct()
 {
@@ -28,6 +29,14 @@ void UEntranceWidgetBase::Register()
 void UEntranceWidgetBase::Login()
 {
 	UE_LOG(LogClass, Warning, TEXT("Login Action"));
+
+	if (AccountID && Password)
+	{
+		FRequest_Login LoginInfo;
+		LoginInfo.accountid = AccountID->GetText().ToString();
+		LoginInfo.password = Password->GetText().ToString();
+		// 어떻게든 HTTP 불러서 만들것
+	}
 }
 
 

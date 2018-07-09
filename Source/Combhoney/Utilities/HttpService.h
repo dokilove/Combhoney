@@ -31,6 +31,18 @@ struct FResponse_Register {
 	FResponse_Register() {}
 };
 
+USTRUCT()
+struct FRequest_Login {
+	GENERATED_BODY()
+
+public:
+	UPROPERTY()
+		FString accountid;
+	UPROPERTY()
+		FString password;
+	FRequest_Login() {}
+};
+
 UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"))
 class COMBHONEY_API AHttpService : public AActor
 {
@@ -63,6 +75,9 @@ public:
 
 	void Register(FRequest_Register RegisterInfo);
 	void RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+	void Login(FRequest_Login LoginInfo);
+	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
 protected:
 	// Called when the game starts or when spawned
