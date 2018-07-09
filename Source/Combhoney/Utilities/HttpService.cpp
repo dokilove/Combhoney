@@ -44,8 +44,8 @@ void AHttpService::BeginPlay()
 	Http = &FHttpModule::Get();
 	
 	FRequest_Register RegisterInfo;
-	RegisterInfo.id = TEXT("UE4Account");
-	RegisterInfo.nickname = TEXT("UENickname");
+	RegisterInfo.accountid = TEXT("UE4Account");
+	RegisterInfo.accountname = TEXT("UENickname");
 	RegisterInfo.password = TEXT("1234");
 	Register(RegisterInfo);
 }

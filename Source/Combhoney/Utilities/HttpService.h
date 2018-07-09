@@ -13,9 +13,9 @@ USTRUCT()
 struct FRequest_Register {
 	GENERATED_BODY()
 		UPROPERTY()
-		FString id;
+		FString accountid;
 	UPROPERTY()
-		FString nickname;
+		FString accountname;
 	UPROPERTY()
 		FString password;
 

@@ -14,7 +14,12 @@ class COMBHONEY_API AEntrancePC : public APlayerController
 {
 	GENERATED_BODY()
 	
-	
-	
-	
+public:
+	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UEntranceWidgetBase* EntranceWidget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class URegisterWidgetBase* RegisterWidget;	
 };

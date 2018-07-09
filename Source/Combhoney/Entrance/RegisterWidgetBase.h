@@ -3,19 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
-#include "EntranceGM.generated.h"
+#include "Blueprint/UserWidget.h"
+#include "RegisterWidgetBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class COMBHONEY_API AEntranceGM : public AGameModeBase
+class COMBHONEY_API URegisterWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
 	
-public:
-	AEntranceGM();
+	
 	
 	
 };
