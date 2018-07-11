@@ -4,6 +4,7 @@
 #include "Components/EditableTextBox.h"
 #include "Components/Button.h"
 #include "Utilities/HttpService.h"
+#include "MyStatic/MyStaticLibrary.h"
 
 void UEntranceWidgetBase::NativeConstruct()
 {
@@ -36,6 +37,16 @@ void UEntranceWidgetBase::Login()
 		LoginInfo.accountid = AccountID->GetText().ToString();
 		LoginInfo.password = Password->GetText().ToString();
 		// 어떻게든 HTTP 불러서 만들것
+		
+		AHttpService* HttpService = UMyStaticLibrary::GetHttpService();
+		if (HttpService != nullptr)
+		{
+			HttpService->Login(LoginInfo);
+		}
+		else
+		{
+			UE_LOG(LogClass, Warning, TEXT("http service is nullptr"));
+		}
 	}
 }
 

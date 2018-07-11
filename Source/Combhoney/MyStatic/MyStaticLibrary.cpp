@@ -29,5 +29,17 @@ AHttpService * UMyStaticLibrary::GetHttpService()
 {
 	AHttpService* HttpService = nullptr;
 
-	return nullptr;
+	FStringClassReference HttpRef(TEXT("Blueprint'/Game/Blueprints/Utilities/BP_Http.BP_Http_C'"));
+	if (UClass* HttpClass = HttpRef.TryLoadClass<AHttpService>())
+	{
+		//HttpService = Cast<AHttpService>(HttpClass);
+		UE_LOG(LogClass, Warning, TEXT("http service load succeed"));
+	}
+
+	if (HttpService == nullptr)
+	{
+		UE_LOG(LogClass, Warning, TEXT("http service load succeed but null"));
+	}
+
+	return HttpService;
 }
