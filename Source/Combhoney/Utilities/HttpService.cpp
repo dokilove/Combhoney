@@ -55,6 +55,14 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
+
+	 TArray <FResponse_Login> LoginResponses;
+	GetStructFromJsonStringArray<FResponse_Login>(Response, LoginResponses);
+
+	for (auto LoginResponse : LoginResponses)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s, %s, %s, %s, %s, %s, %s"), *LoginResponse.avatarid, *LoginResponse.avatarname, *LoginResponse.level, *LoginResponse.exp, *LoginResponse.equipslot1, *LoginResponse.equipslot2, *LoginResponse.equipslot3);
+	}
 }
 
 // Called when the game starts or when spawned

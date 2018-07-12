@@ -43,6 +43,27 @@ public:
 	FRequest_Login() {}
 };
 
+USTRUCT()
+struct FResponse_Login {
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+		FString avatarid;
+	UPROPERTY()
+		FString  avatarname;
+	UPROPERTY()
+		FString  level;
+	UPROPERTY()
+		FString  exp;
+	UPROPERTY()
+		FString  equipslot1;
+	UPROPERTY()
+		FString  equipslot2;
+	UPROPERTY()
+		FString  equipslot3;
+	FResponse_Login() {}
+};
+
 UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"))
 class COMBHONEY_API AHttpService : public AActor
 {
@@ -103,4 +124,11 @@ inline void AHttpService::GetStructFromJsonString(FHttpResponsePtr Response, Str
 	StructType StructData;
 	FString JsonString = Response->GetContentAsString();
 	FJsonObjectConverter::JsonObjectStringToUStruct<StructType>(JsonString, &StructOutput, 0, 0);
+}
+
+template<typename StructType>
+inline void AHttpService::GetStructFromJsonStringArray(FHttpResponsePtr Response, TArray<StructType>& StructArray)
+{
+	FString JsonString = Response->GetContentAsString();
+	FJsonObjectConverter::JsonArrayStringToUStruct(JsonString, &StructArray, 0, 0);
 }
