@@ -37,16 +37,16 @@ void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 }
 
-void AHttpService::Login(FRequest_Login LoginInfo)
+void AHttpService::Login(FRequest_Login LoginInfo, TArray <FResponse_Login>* LoginResponses)
 {
 	FString ContentJsonString;
 	GetJsonStringFromStruct<FRequest_Login>(LoginInfo, ContentJsonString);
 	TSharedRef<IHttpRequest> Request = PostRequest("/login", ContentJsonString);
-	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse, LoginResponses);
 	Send(Request);
 }
 
-void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, TArray <FResponse_Login>* LoginResponses)
 {
 	UE_LOG(LogTemp, Warning, TEXT("LoginResponse"));
 	if (!ResponseIsValid(Response, bWasSuccessful))
@@ -56,13 +56,7 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 
-	 TArray <FResponse_Login> LoginResponses;
-	GetStructFromJsonStringArray<FResponse_Login>(Response, LoginResponses);
-
-	for (auto LoginResponse : LoginResponses)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s, %s, %s, %s, %s, %s, %s"), *LoginResponse.avatarid, *LoginResponse.avatarname, *LoginResponse.level, *LoginResponse.exp, *LoginResponse.equipslot1, *LoginResponse.equipslot2, *LoginResponse.equipslot3);
-	}
+	GetStructFromJsonStringArray<FResponse_Login>(Response, *LoginResponses);
 }
 
 // Called when the game starts or when spawned

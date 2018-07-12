@@ -48,13 +48,13 @@ struct FResponse_Login {
 	GENERATED_BODY()
 public:
 	UPROPERTY()
-		FString avatarid;
+		int32 avatarid;
 	UPROPERTY()
 		FString  avatarname;
 	UPROPERTY()
-		FString  level;
+		int32  level;
 	UPROPERTY()
-		FString  exp;
+		int32  exp;
 	UPROPERTY()
 		FString  equipslot1;
 	UPROPERTY()
@@ -97,8 +97,8 @@ public:
 	void Register(FRequest_Register RegisterInfo);
 	void RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
-	void Login(FRequest_Login LoginInfo);
-	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+	void Login(FRequest_Login LoginInfo, TArray <FResponse_Login>* LoginResponses);
+	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, TArray <FResponse_Login>* LoginResponses);
 
 protected:
 	// Called when the game starts or when spawned

@@ -6,6 +6,7 @@
 #include "Utilities/HttpService.h"
 #include "MyStatic/MyStaticLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "MyGameInstance.h"
 
 void UEntranceWidgetBase::NativeConstruct()
 {
@@ -38,11 +39,18 @@ void UEntranceWidgetBase::Login()
 		LoginInfo.accountid = AccountID->GetText().ToString();
 		LoginInfo.password = Password->GetText().ToString();
 		// 어떻게든 HTTP 불러서 만들것
-		
+		TArray <FResponse_Login> LoginResponses;
 		AHttpService* HttpService = UMyStaticLibrary::GetHttpService(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 		if (HttpService != nullptr)
 		{
-			HttpService->Login(LoginInfo);
+			HttpService->Login(LoginInfo, &LoginResponses);
+
+			UMyGameInstance* GI = Cast<UMyGameInstance>(
+				UGameplayStatics::GetGameInstance(GetWorld()));
+			if (GI)
+			{
+				GI->SetAvatarInfo(LoginResponses);
+			}
 		}
 		else
 		{
