@@ -5,6 +5,7 @@
 #include "Components/Button.h"
 #include "Utilities/HttpService.h"
 #include "MyStatic/MyStaticLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 void UEntranceWidgetBase::NativeConstruct()
 {
@@ -38,7 +39,7 @@ void UEntranceWidgetBase::Login()
 		LoginInfo.password = Password->GetText().ToString();
 		// 어떻게든 HTTP 불러서 만들것
 		
-		AHttpService* HttpService = UMyStaticLibrary::GetHttpService();
+		AHttpService* HttpService = UMyStaticLibrary::GetHttpService(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 		if (HttpService != nullptr)
 		{
 			HttpService->Login(LoginInfo);

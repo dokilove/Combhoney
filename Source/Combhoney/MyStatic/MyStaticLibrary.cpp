@@ -4,6 +4,8 @@
 #include "UserWidget.h"
 #include "GameFramework/PlayerController.h"
 #include "Utilities/HttpService.h"
+#include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 
 class UUserWidget* UMyStaticLibrary::MakeUserWidget(APlayerController* PC, FString path, bool bIsCollapsed)
 {
@@ -25,13 +27,24 @@ class UUserWidget* UMyStaticLibrary::MakeUserWidget(APlayerController* PC, FStri
 	return ResultWidget;
 }
 
-AHttpService * UMyStaticLibrary::GetHttpService()
+AHttpService * UMyStaticLibrary::GetHttpService(APlayerController* PC)
 {
+	TArray <class AActor*> HttpActors;
+
+	UGameplayStatics::GetAllActorsOfClass(PC->GetWorld(), AHttpService::StaticClass(), HttpActors);
+
+	if (HttpActors.Num() > 0)
+	{
+		UE_LOG(LogClass, Warning, TEXT("already has http actor"));
+		return Cast<AHttpService>(HttpActors[0]);
+	}
+
 	AHttpService* HttpService = nullptr;
 
 	FStringClassReference HttpRef(TEXT("Blueprint'/Game/Blueprints/Utilities/BP_Http.BP_Http_C'"));
 	if (UClass* HttpClass = HttpRef.TryLoadClass<AHttpService>())
 	{
+		HttpService = Cast<AHttpService>(PC->GetWorld()->SpawnActor<AHttpService>(HttpClass, FVector().ZeroVector, FRotator().ZeroRotator));
 		//HttpService = Cast<AHttpService>(HttpClass);
 		UE_LOG(LogClass, Warning, TEXT("http service load succeed"));
 	}

@@ -48,7 +48,12 @@ void AHttpService::Login(FRequest_Login LoginInfo)
 
 void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 {
-	
+	UE_LOG(LogTemp, Warning, TEXT("LoginResponse"));
+	if (!ResponseIsValid(Response, bWasSuccessful))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("LoginResponse - ResponseIsNotValid"));
+		return;
+	}
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 }
 
@@ -58,11 +63,11 @@ void AHttpService::BeginPlay()
 	Super::BeginPlay();
 	Http = &FHttpModule::Get();
 	
-	FRequest_Register RegisterInfo;
+	/*FRequest_Register RegisterInfo;
 	RegisterInfo.accountid = TEXT("UE4Account");
 	RegisterInfo.accountname = TEXT("UENickname");
 	RegisterInfo.password = TEXT("1234");
-	Register(RegisterInfo);
+	Register(RegisterInfo);*/
 }
 
 // Called every frame

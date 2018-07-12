@@ -23,5 +23,5 @@ public:
 		return Cast<T>(MakeUserWidget(PC, path, bIsCollapesd));
 	}
 
-	static class AHttpService* GetHttpService();
+	static class AHttpService* GetHttpService(APlayerController* PC);
 };
