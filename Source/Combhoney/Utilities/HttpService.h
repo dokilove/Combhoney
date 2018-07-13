@@ -117,7 +117,7 @@ public:
 	void Login(FRequest_Login LoginInfo, class AEntrancePC* PC);
 	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class AEntrancePC* PC);
 
-	void AllAvatarInfo(FRequest_AccountIdx AccountIdx, class AEntrancePC* PC);
+	void AllAvatarInfo(int32 Idx, class AEntrancePC* PC);
 	void AllAvatarInfoResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class AEntrancePC* PC);
 
 protected:

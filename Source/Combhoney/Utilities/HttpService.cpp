@@ -66,10 +66,13 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 	PC->LoginSuccess(AccountInfo);		
 }
 
-void AHttpService::AllAvatarInfo(FRequest_AccountIdx AccountIdx, AEntrancePC * PC)
+void AHttpService::AllAvatarInfo(int32 Idx, AEntrancePC * PC)
 {
 	FString ContentJsonString;
-	GetJsonStringFromStruct<FRequest_AccountIdx>(AccountIdx, ContentJsonString);
+
+	FRequest_AccountIdx RequestAccountIdx;
+	RequestAccountIdx.Idx = Idx;
+	GetJsonStringFromStruct<FRequest_AccountIdx>(RequestAccountIdx, ContentJsonString);
 	TSharedRef<IHttpRequest> Request = PostRequest("/allAvatarInfo", ContentJsonString);
 	Send(Request);
 	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::AllAvatarInfoResponse, PC);

@@ -35,7 +35,7 @@ void AEntrancePC::LoginSuccess(FAccountInfo AccountInfo)
 		AHttpService* HttpService = UMyStaticLibrary::GetHttpService(this);
 		if (HttpService != nullptr)
 		{
-			HttpService->AllAvatarInfo(GI->AccountIdx, this);
+			HttpService->AllAvatarInfo(GI->MyAccountInfo.Idx, this);
 		}
 	}
 

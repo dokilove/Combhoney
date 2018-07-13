@@ -22,9 +22,6 @@ public:
 		FAccountInfo MyAccountInfo;
 
 	UPROPERTY()
-		FRequest_AccountIdx AccountIdx;
-
-	UPROPERTY()
 		TArray<FAvatarInfo> MyAvatarInfo;
 	
 	void SetAccountInfo(FAccountInfo AccountInfo);
