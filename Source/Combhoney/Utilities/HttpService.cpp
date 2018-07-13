@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HttpService.h"
-#include "MyGameInstance.h"
+#include "Entrance/EntrancePC.h"
 
 // Sets default values
 AHttpService::AHttpService()
@@ -37,16 +37,16 @@ void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 }
 
-void AHttpService::Login(FRequest_Login LoginInfo, UMyGameInstance* GI)
+void AHttpService::Login(FRequest_Login LoginInfo, AEntrancePC* PC)
 {
 	FString ContentJsonString;
 	GetJsonStringFromStruct<FRequest_Login>(LoginInfo, ContentJsonString);
 	TSharedRef<IHttpRequest> Request = PostRequest("/login", ContentJsonString);
 	Send(Request);
-	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse, GI);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse, PC);
 }
 
-void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, UMyGameInstance* GI)
+void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, AEntrancePC* PC)
 {
 	UE_LOG(LogTemp, Warning, TEXT("LoginResponse"));
 	if (!ResponseIsValid(Response, bWasSuccessful))
@@ -56,11 +56,14 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 
-	TArray<FAvatarInfo> LoginResponses;
+	/*TArray<FAvatarInfo> LoginResponses;
 
-	GetStructFromJsonStringArray<FAvatarInfo>(Response, LoginResponses);
-	
-	GI->SetAvatarInfo(LoginResponses);
+	GetStructFromJsonStringArray<FAvatarInfo>(Response, LoginResponses);*/
+
+	FAccountInfo AccountInfo;
+	GetStructFromJsonString<FAccountInfo>(Response, AccountInfo);
+
+	PC->LoginSuccess(AccountInfo);		
 }
 
 // Called when the game starts or when spawned

@@ -7,6 +7,11 @@ void UMyGameInstance::Init()
 
 }
 
+void UMyGameInstance::SetAccountInfo(FAccountInfo AccountInfo)
+{
+	MyAccountInfo = AccountInfo;
+}
+
 void UMyGameInstance::SetAvatarInfo(TArray<FAvatarInfo> AvatarInfo)
 {
 	MyAvatarInfo = AvatarInfo;

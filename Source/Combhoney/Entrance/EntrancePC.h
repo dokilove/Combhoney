@@ -22,4 +22,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class URegisterWidgetBase* RegisterWidget;	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class USetAvatarUserWidgetBase* SetAvatarWidget;
+
+	void LoginSuccess(struct FAccountInfo AccountInfo);
 };

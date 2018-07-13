@@ -19,7 +19,11 @@ public:
 	virtual void Init() override;
 
 	UPROPERTY()
+		FAccountInfo MyAccountInfo;
+
+	UPROPERTY()
 		TArray<FAvatarInfo> MyAvatarInfo;
 	
+	void SetAccountInfo(FAccountInfo AccountInfo);
 	void SetAvatarInfo(TArray<FAvatarInfo> AvatarInfo);
 };

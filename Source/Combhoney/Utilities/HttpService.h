@@ -105,8 +105,8 @@ public:
 	void Register(FRequest_Register RegisterInfo);
 	void RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
-	void Login(FRequest_Login LoginInfo, class UMyGameInstance* GI);
-	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class UMyGameInstance* GI);
+	void Login(FRequest_Login LoginInfo, class AEntrancePC* PC);
+	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class AEntrancePC* PC);
 
 
 protected:

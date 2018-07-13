@@ -6,7 +6,7 @@
 #include "Utilities/HttpService.h"
 #include "MyStatic/MyStaticLibrary.h"
 #include "Kismet/GameplayStatics.h"
-#include "MyGameInstance.h"
+#include "Entrance/EntrancePC.h"
 
 void UEntranceWidgetBase::NativeConstruct()
 {
@@ -51,13 +51,15 @@ void UEntranceWidgetBase::Login()
 			//	UE_LOG(LogTemp, Warning, TEXT("%d, %s, %d, %d, %s, %s, %s"), LoginResponse.avatarid, *LoginResponse.avatarname, LoginResponse.level, LoginResponse.exp, *LoginResponse.equipslot1, *LoginResponse.equipslot2, *LoginResponse.equipslot3);
 			//}
 
-			UMyGameInstance* GI = Cast<UMyGameInstance>(
-				UGameplayStatics::GetGameInstance(GetWorld()));
-			if (GI)
+			AEntrancePC* PC = Cast<AEntrancePC>(
+				UGameplayStatics::GetPlayerController(GetWorld(), 0));
+			if (PC)
 			{
 				//GI->SetAvatarInfo(LoginResponses);
-				HttpService->Login(LoginInfo, GI);
+				HttpService->Login(LoginInfo, PC);
 			}
+
+			
 		}
 		else
 		{
