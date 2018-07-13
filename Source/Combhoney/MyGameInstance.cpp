@@ -7,12 +7,12 @@ void UMyGameInstance::Init()
 
 }
 
-void UMyGameInstance::SetAvatarInfo(TArray<FResponse_Login> AvatarInfo)
+void UMyGameInstance::SetAvatarInfo(TArray<FAvatarInfo> AvatarInfo)
 {
 	MyAvatarInfo = AvatarInfo;
 
 	for (auto LoginResponse : MyAvatarInfo)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("GI %d, %s, %d, %d, %s, %s, %s"), LoginResponse.avatarid, *LoginResponse.avatarname, LoginResponse.level, LoginResponse.exp, *LoginResponse.equipslot1, *LoginResponse.equipslot2, *LoginResponse.equipslot3);
+		UE_LOG(LogTemp, Warning, TEXT("GI %d, %s, %d, %d, %s, %s, %s"), LoginResponse.AvatarId, *LoginResponse.AvatarName, LoginResponse.Level, LoginResponse.Exp, *LoginResponse.EquipSlot1, *LoginResponse.EquipSlot2, *LoginResponse.EquipSlot3);
 	}
 }

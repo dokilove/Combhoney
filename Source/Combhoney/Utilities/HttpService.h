@@ -23,12 +23,20 @@ struct FRequest_Register {
 };
 
 USTRUCT()
-struct FResponse_Register {
+struct FAccountInfo {
 	GENERATED_BODY()
-		UPROPERTY()
-		FString Log;
-
-	FResponse_Register() {}
+public:	
+	UPROPERTY()
+		int32 Idx;
+	UPROPERTY()
+		FString AccountId;
+	UPROPERTY()
+		FString AccountName;
+	UPROPERTY()
+		int32 Gold;
+	UPROPERTY()
+		int32 Cash;
+	FAccountInfo() {}
 };
 
 USTRUCT()
@@ -44,24 +52,24 @@ public:
 };
 
 USTRUCT()
-struct FResponse_Login {
+struct FAvatarInfo {
 	GENERATED_BODY()
 public:
 	UPROPERTY()
-		int32 avatarid;
+		int32 AvatarId;
 	UPROPERTY()
-		FString  avatarname;
+		FString  AvatarName;
 	UPROPERTY()
-		int32  level;
+		int32 Level;
 	UPROPERTY()
-		int32  exp;
+		int32  Exp;
 	UPROPERTY()
-		FString  equipslot1;
+		FString  EquipSlot1;
 	UPROPERTY()
-		FString  equipslot2;
+		FString  EquipSlot2;
 	UPROPERTY()
-		FString  equipslot3;
-	FResponse_Login() {}
+		FString  EquipSlot3;
+	FAvatarInfo() {}
 };
 
 UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"))

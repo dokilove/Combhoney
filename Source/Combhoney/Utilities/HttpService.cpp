@@ -31,8 +31,8 @@ void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 		return;
 	}
 
-	FResponse_Register RegisterResponse;
-	GetStructFromJsonString<FResponse_Register>(Response, RegisterResponse);
+	//FResponse_Register RegisterResponse;
+	//GetStructFromJsonString<FResponse_Register>(Response, RegisterResponse);
 
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 }
@@ -56,9 +56,9 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 
-	TArray<FResponse_Login> LoginResponses;
+	TArray<FAvatarInfo> LoginResponses;
 
-	GetStructFromJsonStringArray<FResponse_Login>(Response, LoginResponses);
+	GetStructFromJsonStringArray<FAvatarInfo>(Response, LoginResponses);
 	
 	GI->SetAvatarInfo(LoginResponses);
 }

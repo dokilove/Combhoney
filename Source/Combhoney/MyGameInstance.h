@@ -19,7 +19,7 @@ public:
 	virtual void Init() override;
 
 	UPROPERTY()
-		TArray<FResponse_Login> MyAvatarInfo;
+		TArray<FAvatarInfo> MyAvatarInfo;
 	
-	void SetAvatarInfo(TArray<FResponse_Login> AvatarInfo);
+	void SetAvatarInfo(TArray<FAvatarInfo> AvatarInfo);
 };
