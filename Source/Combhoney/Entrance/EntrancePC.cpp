@@ -4,6 +4,7 @@
 #include "Entrance/EntranceWidgetBase.h"
 #include "Entrance/RegisterWidgetBase.h"
 #include "MyStatic/MyStaticLibrary.h"
+#include "Components/EditableTextBox.h"
 
 void AEntrancePC::BeginPlay()
 {
@@ -11,6 +12,8 @@ void AEntrancePC::BeginPlay()
 
 	bShowMouseCursor = true;
 	SetInputMode(FInputModeUIOnly());
+
+	EntranceWidget->AccountID->SetUserFocus(this);
 }
 
 

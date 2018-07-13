@@ -127,8 +127,8 @@ inline void AHttpService::GetStructFromJsonString(FHttpResponsePtr Response, Str
 }
 
 template<typename StructType>
-inline void AHttpService::GetStructFromJsonStringArray(FHttpResponsePtr Response, TArray<StructType>& StructArray)
+inline void AHttpService::GetStructFromJsonStringArray(FHttpResponsePtr Response, TArray<StructType>* StructArray)
 {
 	FString JsonString = Response->GetContentAsString();
-	FJsonObjectConverter::JsonArrayStringToUStruct(JsonString, &StructArray, 0, 0);
+	FJsonObjectConverter::JsonArrayStringToUStruct(JsonString, StructArray, 0, 0);
 }

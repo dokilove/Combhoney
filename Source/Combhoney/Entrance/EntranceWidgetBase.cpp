@@ -38,18 +38,25 @@ void UEntranceWidgetBase::Login()
 		FRequest_Login LoginInfo;
 		LoginInfo.accountid = AccountID->GetText().ToString();
 		LoginInfo.password = Password->GetText().ToString();
-		// 어떻게든 HTTP 불러서 만들것
-		TArray <FResponse_Login> LoginResponses;
+
 		AHttpService* HttpService = UMyStaticLibrary::GetHttpService(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 		if (HttpService != nullptr)
 		{
-			HttpService->Login(LoginInfo, &LoginResponses);
+			//TArray <FResponse_Login> LoginResponses;
+
+			//HttpService->Login(LoginInfo, &LoginResponses);
+
+			//for (auto LoginResponse : LoginResponses)
+			//{
+			//	UE_LOG(LogTemp, Warning, TEXT("%d, %s, %d, %d, %s, %s, %s"), LoginResponse.avatarid, *LoginResponse.avatarname, LoginResponse.level, LoginResponse.exp, *LoginResponse.equipslot1, *LoginResponse.equipslot2, *LoginResponse.equipslot3);
+			//}
 
 			UMyGameInstance* GI = Cast<UMyGameInstance>(
 				UGameplayStatics::GetGameInstance(GetWorld()));
 			if (GI)
 			{
-				GI->SetAvatarInfo(LoginResponses);
+				//GI->SetAvatarInfo(LoginResponses);
+				HttpService->Login(LoginInfo, &GI->MyAvatarInfo);
 			}
 		}
 		else
