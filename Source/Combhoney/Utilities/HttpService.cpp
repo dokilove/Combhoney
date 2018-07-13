@@ -66,6 +66,32 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 	PC->LoginSuccess(AccountInfo);		
 }
 
+void AHttpService::AllAvatarInfo(FRequest_AccountIdx AccountIdx, AEntrancePC * PC)
+{
+	FString ContentJsonString;
+	GetJsonStringFromStruct<FRequest_AccountIdx>(AccountIdx, ContentJsonString);
+	TSharedRef<IHttpRequest> Request = PostRequest("/allAvatarInfo", ContentJsonString);
+	Send(Request);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::AllAvatarInfoResponse, PC);
+}
+
+void AHttpService::AllAvatarInfoResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, AEntrancePC * PC)
+{
+	UE_LOG(LogTemp, Warning, TEXT("AllAvatarInfoResponse"));
+	if (!ResponseIsValid(Response, bWasSuccessful))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AllAvatarInfoResponse - ResponseIsNotValid"));
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
+
+	TArray<FAvatarInfo> AvatarInfos;
+
+	GetStructFromJsonStringArray<FAvatarInfo>(Response, AvatarInfos);
+
+	PC->AllAvatarInfoSuccess(AvatarInfos);
+}
+
 // Called when the game starts or when spawned
 void AHttpService::BeginPlay()
 {

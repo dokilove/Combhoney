@@ -72,6 +72,15 @@ public:
 	FAvatarInfo() {}
 };
 
+USTRUCT()
+struct FRequest_AccountIdx {
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+		int32 Idx;
+	FRequest_AccountIdx() {}
+};
+
 UCLASS(Blueprintable, hideCategories = (Rendering, Replication, Input, Actor, "Actor Tick"))
 class COMBHONEY_API AHttpService : public AActor
 {
@@ -108,6 +117,8 @@ public:
 	void Login(FRequest_Login LoginInfo, class AEntrancePC* PC);
 	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class AEntrancePC* PC);
 
+	void AllAvatarInfo(FRequest_AccountIdx AccountIdx, class AEntrancePC* PC);
+	void AllAvatarInfoResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class AEntrancePC* PC);
 
 protected:
 	// Called when the game starts or when spawned

@@ -31,8 +31,26 @@ void AEntrancePC::LoginSuccess(FAccountInfo AccountInfo)
 
 		SetAvatarWidget->SetAccountInfo();
 
+
+		AHttpService* HttpService = UMyStaticLibrary::GetHttpService(this);
+		if (HttpService != nullptr)
+		{
+			HttpService->AllAvatarInfo(GI->AccountIdx, this);
+		}
+	}
+
+}
+
+void AEntrancePC::AllAvatarInfoSuccess(TArray<struct FAvatarInfo> AvatarInfos)
+{
+
+	UMyGameInstance* GI = Cast<UMyGameInstance>(
+		UGameplayStatics::GetGameInstance(GetWorld()));
+	if (GI)
+	{
+		GI->SetAvatarInfo(AvatarInfos);
+		
 		EntranceWidget->SetVisibility(ESlateVisibility::Collapsed);
 		SetAvatarWidget->SetVisibility(ESlateVisibility::Visible);
 	}
-
 }

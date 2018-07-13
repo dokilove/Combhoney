@@ -39,27 +39,16 @@ void UEntranceWidgetBase::Login()
 		LoginInfo.accountid = AccountID->GetText().ToString();
 		LoginInfo.password = Password->GetText().ToString();
 
-		AHttpService* HttpService = UMyStaticLibrary::GetHttpService(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-		if (HttpService != nullptr)
+
+		AEntrancePC* PC = Cast<AEntrancePC>(
+			UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		if (PC)
 		{
-			//TArray <FResponse_Login> LoginResponses;
-
-			//HttpService->Login(LoginInfo, &LoginResponses);
-
-			//for (auto LoginResponse : LoginResponses)
-			//{
-			//	UE_LOG(LogTemp, Warning, TEXT("%d, %s, %d, %d, %s, %s, %s"), LoginResponse.avatarid, *LoginResponse.avatarname, LoginResponse.level, LoginResponse.exp, *LoginResponse.equipslot1, *LoginResponse.equipslot2, *LoginResponse.equipslot3);
-			//}
-
-			AEntrancePC* PC = Cast<AEntrancePC>(
-				UGameplayStatics::GetPlayerController(GetWorld(), 0));
-			if (PC)
+			AHttpService* HttpService = UMyStaticLibrary::GetHttpService(PC);
+			if (HttpService != nullptr)
 			{
-				//GI->SetAvatarInfo(LoginResponses);
 				HttpService->Login(LoginInfo, PC);
-			}
-
-			
+			}			
 		}
 		else
 		{

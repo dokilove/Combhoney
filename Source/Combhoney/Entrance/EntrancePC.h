@@ -27,4 +27,5 @@ public:
 		class USetAvatarUserWidgetBase* SetAvatarWidget;
 
 	void LoginSuccess(struct FAccountInfo AccountInfo);
+	void AllAvatarInfoSuccess(TArray<struct FAvatarInfo> AvatarInfos);
 };
