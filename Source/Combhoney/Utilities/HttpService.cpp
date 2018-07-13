@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HttpService.h"
-
+#include "MyGameInstance.h"
 
 // Sets default values
 AHttpService::AHttpService()
@@ -37,16 +37,16 @@ void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 }
 
-void AHttpService::Login(FRequest_Login LoginInfo, TArray <FResponse_Login>* LoginResponses)
+void AHttpService::Login(FRequest_Login LoginInfo, UMyGameInstance* GI)
 {
 	FString ContentJsonString;
 	GetJsonStringFromStruct<FRequest_Login>(LoginInfo, ContentJsonString);
 	TSharedRef<IHttpRequest> Request = PostRequest("/login", ContentJsonString);
-	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse, LoginResponses);
 	Send(Request);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::LoginResponse, GI);
 }
 
-void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, TArray <FResponse_Login>* LoginResponses)
+void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, UMyGameInstance* GI)
 {
 	UE_LOG(LogTemp, Warning, TEXT("LoginResponse"));
 	if (!ResponseIsValid(Response, bWasSuccessful))
@@ -56,12 +56,11 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 
-	GetStructFromJsonStringArray<FResponse_Login>(Response, LoginResponses);
+	TArray<FResponse_Login> LoginResponses;
 
-	for (auto LoginResponse : *LoginResponses)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%d, %s, %d, %d, %s, %s, %s"), LoginResponse.avatarid, *LoginResponse.avatarname, LoginResponse.level, LoginResponse.exp, *LoginResponse.equipslot1, *LoginResponse.equipslot2, *LoginResponse.equipslot3);
-	}
+	GetStructFromJsonStringArray<FResponse_Login>(Response, LoginResponses);
+	
+	GI->SetAvatarInfo(LoginResponses);
 }
 
 // Called when the game starts or when spawned

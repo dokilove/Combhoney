@@ -97,8 +97,9 @@ public:
 	void Register(FRequest_Register RegisterInfo);
 	void RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 
-	void Login(FRequest_Login LoginInfo, TArray <FResponse_Login>* LoginResponses);
-	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, TArray <FResponse_Login>* LoginResponses);
+	void Login(FRequest_Login LoginInfo, class UMyGameInstance* GI);
+	void LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class UMyGameInstance* GI);
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -127,8 +128,8 @@ inline void AHttpService::GetStructFromJsonString(FHttpResponsePtr Response, Str
 }
 
 template<typename StructType>
-inline void AHttpService::GetStructFromJsonStringArray(FHttpResponsePtr Response, TArray<StructType>* StructArray)
+inline void AHttpService::GetStructFromJsonStringArray(FHttpResponsePtr Response, TArray<StructType>& StructArray)
 {
 	FString JsonString = Response->GetContentAsString();
-	FJsonObjectConverter::JsonArrayStringToUStruct(JsonString, StructArray, 0, 0);
+	FJsonObjectConverter::JsonArrayStringToUStruct(JsonString, &StructArray, 0, 0);
 }

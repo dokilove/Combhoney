@@ -56,7 +56,7 @@ void UEntranceWidgetBase::Login()
 			if (GI)
 			{
 				//GI->SetAvatarInfo(LoginResponses);
-				HttpService->Login(LoginInfo, &GI->MyAvatarInfo);
+				HttpService->Login(LoginInfo, GI);
 			}
 		}
 		else
