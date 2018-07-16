@@ -4,6 +4,8 @@
 #include "Components/EditableTextBox.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "Entrance/EntrancePC.h"
+#include "Kismet/GameplayStatics.h"
 
 void URegisterWidgetBase::NativeConstruct()
 {
@@ -33,5 +35,10 @@ void URegisterWidgetBase::Register()
 
 void URegisterWidgetBase::Back()
 {
-
+	AEntrancePC* PC = Cast<AEntrancePC>(
+		UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (PC)
+	{
+		PC->OpenMenu(EEntranceMenuState::Entrance);
+	}
 }
