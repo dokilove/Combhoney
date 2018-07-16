@@ -6,6 +6,14 @@
 #include "GameFramework/PlayerController.h"
 #include "EntrancePC.generated.h"
 
+UENUM(BlueprintType)
+enum class EEntranceMenuState : uint8
+{
+	Entrance UMETA(Display = "Entrance"),
+	Register UMETA(Display = "Register"),
+	SetAvatar UMETA(Display = "SetAvatar"),
+};
+
 /**
  * 
  */
@@ -16,6 +24,9 @@ class COMBHONEY_API AEntrancePC : public APlayerController
 	
 public:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(Category = Const, EditAnywhere)
+		TMap<EEntranceMenuState, UUserWidget*> MenuMap;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UEntranceWidgetBase* EntranceWidget;
@@ -28,4 +39,6 @@ public:
 
 	void LoginSuccess(struct FAccountInfo AccountInfo);
 	void AllAvatarInfoSuccess(TArray<struct FAvatarInfo> AvatarInfos);
+	
+	void OpenMenu(EEntranceMenuState Menu);
 };

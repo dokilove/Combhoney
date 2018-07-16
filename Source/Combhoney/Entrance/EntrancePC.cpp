@@ -13,7 +13,15 @@ void AEntrancePC::BeginPlay()
 {
 	EntranceWidget = UMyStaticLibrary::MakeCustomWidget<UEntranceWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/EntranceWidget.EntranceWidget_C'"), false);
 
+	MenuMap.Add(EEntranceMenuState::Entrance, EntranceWidget);
+
+	RegisterWidget = UMyStaticLibrary::MakeCustomWidget<URegisterWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/RegisterWidget.RegisterWidget_C'"));
+
+	MenuMap.Add(EEntranceMenuState::Register, RegisterWidget);
+
 	SetAvatarWidget = UMyStaticLibrary::MakeCustomWidget<USetAvatarUserWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/SetAvatarWidget.SetAvatarWidget_C'"));
+
+	MenuMap.Add(EEntranceMenuState::SetAvatar, SetAvatarWidget);
 
 	bShowMouseCursor = true;
 	SetInputMode(FInputModeUIOnly());
@@ -43,14 +51,24 @@ void AEntrancePC::LoginSuccess(FAccountInfo AccountInfo)
 
 void AEntrancePC::AllAvatarInfoSuccess(TArray<struct FAvatarInfo> AvatarInfos)
 {
-
 	UMyGameInstance* GI = Cast<UMyGameInstance>(
 		UGameplayStatics::GetGameInstance(GetWorld()));
 	if (GI)
 	{
 		GI->SetAvatarInfo(AvatarInfos);
-		
-		EntranceWidget->SetVisibility(ESlateVisibility::Collapsed);
-		SetAvatarWidget->SetVisibility(ESlateVisibility::Visible);
+		OpenMenu(EEntranceMenuState::SetAvatar);
 	}
+}
+
+void AEntrancePC::OpenMenu(EEntranceMenuState Menu)
+{
+	for (auto Widget : MenuMap)
+	{
+		if (Widget.Key == Menu)
+		{
+			continue;
+		}
+		Widget.Value->SetVisibility(ESlateVisibility::Collapsed);
+	}
+	MenuMap[Menu]->SetVisibility(ESlateVisibility::Visible);
 }

@@ -27,6 +27,13 @@ void UEntranceWidgetBase::NativeConstruct()
 void UEntranceWidgetBase::Register()
 {
 	UE_LOG(LogClass, Warning, TEXT("Register Action"));
+
+	AEntrancePC* PC = Cast<AEntrancePC>(
+		UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (PC)
+	{
+		PC->OpenMenu(EEntranceMenuState::Register);
+	}
 }
 
 void UEntranceWidgetBase::Login()
@@ -35,24 +42,28 @@ void UEntranceWidgetBase::Login()
 
 	if (AccountID && Password)
 	{
-		FRequest_Login LoginInfo;
-		LoginInfo.accountid = AccountID->GetText().ToString();
-		LoginInfo.password = Password->GetText().ToString();
-
-
-		AEntrancePC* PC = Cast<AEntrancePC>(
-			UGameplayStatics::GetPlayerController(GetWorld(), 0));
-		if (PC)
+		if (AccountID->GetText().ToString().Len() > 0 && Password->GetText().ToString().Len() > 0)
 		{
-			AHttpService* HttpService = UMyStaticLibrary::GetHttpService(PC);
-			if (HttpService != nullptr)
+
+			FRequest_Login LoginInfo;
+			LoginInfo.accountid = AccountID->GetText().ToString();
+			LoginInfo.password = Password->GetText().ToString();
+
+
+			AEntrancePC* PC = Cast<AEntrancePC>(
+				UGameplayStatics::GetPlayerController(GetWorld(), 0));
+			if (PC)
 			{
-				HttpService->Login(LoginInfo, PC);
-			}			
-		}
-		else
-		{
-			UE_LOG(LogClass, Warning, TEXT("http service is nullptr"));
+				AHttpService* HttpService = UMyStaticLibrary::GetHttpService(PC);
+				if (HttpService != nullptr)
+				{
+					HttpService->Login(LoginInfo, PC);
+				}
+			}
+			else
+			{
+				UE_LOG(LogClass, Warning, TEXT("http service is nullptr"));
+			}
 		}
 	}
 }
