@@ -17,6 +17,11 @@ class COMBHONEY_API URegisterWidgetBase : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
+	virtual void NativeOnFocusChanging(const FWeakWidgetPath& PreviousFocusPath, const FWidgetPath& NewWidgetPath, const FFocusEvent& InFocusEvent) override;
+	virtual void NativeOnAddedToFocusPath(const FFocusEvent& InFocusEvent) override;
+	virtual void NativeOnRemovedFromFocusPath(const FFocusEvent& InFocusEvent) override;
+
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UEditableTextBox* AccountID;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

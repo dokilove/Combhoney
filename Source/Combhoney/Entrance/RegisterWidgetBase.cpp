@@ -6,12 +6,15 @@
 #include "Components/TextBlock.h"
 #include "Entrance/EntrancePC.h"
 #include "Kismet/GameplayStatics.h"
+#include "MyStatic/MyStaticLibrary.h"
+#include "Utilities/HttpService.h"
 
 void URegisterWidgetBase::NativeConstruct()
 {
 	AccountID = Cast<UEditableTextBox>(GetWidgetFromName("AccountId"));
 
 	NickName = Cast<UEditableTextBox>(GetWidgetFromName("NickName"));
+
 	Password = Cast<UEditableTextBox>(GetWidgetFromName("Password"));
 	Password->OnTextChanged.AddDynamic(this, &URegisterWidgetBase::OnTextChanged);
 	PasswordAgain = Cast<UEditableTextBox>(GetWidgetFromName("PasswordAgain"));
@@ -31,9 +34,48 @@ void URegisterWidgetBase::NativeConstruct()
 	}
 }
 
+void URegisterWidgetBase::NativeOnFocusChanging(const FWeakWidgetPath & PreviousFocusPath, const FWidgetPath & NewWidgetPath, const FFocusEvent & InFocusEvent)
+{
+	Super::NativeOnFocusChanging(PreviousFocusPath, NewWidgetPath, InFocusEvent);
+	UE_LOG(LogClass, Warning, TEXT("NativeOnFocusChanging UserIndex %d"), InFocusEvent.GetUser());
+}
+
+void URegisterWidgetBase::NativeOnAddedToFocusPath(const FFocusEvent & InFocusEvent)
+{
+	Super::NativeOnAddedToFocusPath(InFocusEvent);
+	UE_LOG(LogClass, Warning, TEXT("NativeOnAddedToFocusPath"));
+}
+
+void URegisterWidgetBase::NativeOnRemovedFromFocusPath(const FFocusEvent & InFocusEvent)
+{
+	Super::NativeOnRemovedFromFocusPath(InFocusEvent);
+	UE_LOG(LogClass, Warning, TEXT("NativeOnRemovedFromFocusPath"));
+}
+
 void URegisterWidgetBase::Register()
 {
+	if (AccountID && Password && PasswordAgain)
+	{
+		if (AccountID->GetText().ToString().Len() > 0
+			&& Password->GetText().ToString().Len() > 0
+			&& PasswordAgain->GetText().ToString() == Password->GetText().ToString())
+		{
+			FRequest_Register RequestRegister;
+			RequestRegister.accountid = AccountID->GetText().ToString();
+			RequestRegister.accountname = NickName->GetText().ToString();
+			RequestRegister.password = Password->GetText().ToString();
 
+			AEntrancePC* PC = Cast<AEntrancePC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+			if (PC)
+			{
+				AHttpService* HttpService = UMyStaticLibrary::GetHttpService(PC);
+				if (HttpService != nullptr)
+				{
+					HttpService->Register(RequestRegister, PC);
+				}
+			}
+		}
+	}
 }
 
 void URegisterWidgetBase::Back()
@@ -77,6 +119,7 @@ void URegisterWidgetBase::ResetInfo()
 	{
 		PasswordAgain->SetText(FText());
 	}
+	Notice->SetText(FText::FromString(TEXT("계정 ID를 입력해주십시오.")));
 }
 
 void URegisterWidgetBase::OnTextChanged(const FText& Text)

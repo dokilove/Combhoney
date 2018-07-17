@@ -19,9 +19,6 @@ void AEntrancePC::BeginPlay()
 
 	MenuMap.Add(EEntranceMenuState::Register, RegisterWidget);
 	
-	//RegisterWidget->VisibilityDelegate.BindDynamic(this, &AEntrancePC::Test);
-
-
 	RegisterWidget->VisibilityDelegate.BindDynamic(RegisterWidget, &URegisterWidgetBase::FocusToAccountID);
 
 	SetAvatarWidget = UMyStaticLibrary::MakeCustomWidget<USetAvatarUserWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/SetAvatarWidget.SetAvatarWidget_C'"));
@@ -34,10 +31,17 @@ void AEntrancePC::BeginPlay()
 	EntranceWidget->AccountID->SetUserFocus(this);
 }
 
-ESlateVisibility AEntrancePC::Test()
+void AEntrancePC::RegistSuccess(FAccountInfo AccountInfo)
 {
-	UE_LOG(LogClass, Warning, TEXT("Test : %s"), RegisterWidget->IsVisible() ? TEXT("Visible") : TEXT("Not Visible"));
-	return ESlateVisibility::Collapsed;
+	UMyGameInstance* GI = Cast<UMyGameInstance>(
+		UGameplayStatics::GetGameInstance(GetWorld()));
+	if (GI)
+	{
+		GI->SetAccountInfo(AccountInfo);
+
+		SetAvatarWidget->SetAccountInfo();
+		OpenMenu(EEntranceMenuState::SetAvatar);
+	}
 }
 
 void AEntrancePC::LoginSuccess(FAccountInfo AccountInfo)
@@ -82,7 +86,7 @@ void AEntrancePC::OpenMenu(EEntranceMenuState Menu)
 		Widget.Value->SetVisibility(ESlateVisibility::Collapsed);
 	}
 	MenuMap[Menu]->SetVisibility(ESlateVisibility::Visible);
-
+	
 	if (MenuMap[Menu]->VisibilityDelegate.IsBound())
 	{
 		MenuMap[Menu]->VisibilityDelegate.Execute();

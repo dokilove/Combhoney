@@ -11,18 +11,18 @@ AHttpService::AHttpService()
 
 }
 
-void AHttpService::Register(FRequest_Register RegisterInfo)
+void AHttpService::Register(FRequest_Register RegisterInfo, class AEntrancePC* PC)
 {
 	FString ContentJsonString;
 	GetJsonStringFromStruct<FRequest_Register>(RegisterInfo, ContentJsonString);
 	TSharedRef<IHttpRequest> Request = PostRequest("/register", ContentJsonString);
 	//TSharedRef<IHttpRequest> Request = PostRequest("/login", ContentJsonString);
 	//TSharedRef<IHttpRequest> Request = GetRequest("/login");
-	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::RegisterResponse);
+	Request->OnProcessRequestComplete().BindUObject(this, &AHttpService::RegisterResponse, PC);
 	Send(Request);
 }
 
-void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class AEntrancePC* PC)
 {
 	UE_LOG(LogTemp, Warning, TEXT("RegisterResponse"));
 	if (!ResponseIsValid(Response, bWasSuccessful))
@@ -35,6 +35,11 @@ void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 	//GetStructFromJsonString<FResponse_Register>(Response, RegisterResponse);
 
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
+	
+	FAccountInfo AccountInfo;
+	GetStructFromJsonString<FAccountInfo>(Response, AccountInfo);
+
+	PC->RegistSuccess(AccountInfo);
 }
 
 void AHttpService::Login(FRequest_Login LoginInfo, AEntrancePC* PC)
