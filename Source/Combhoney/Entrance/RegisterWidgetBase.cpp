@@ -37,19 +37,19 @@ void URegisterWidgetBase::NativeConstruct()
 void URegisterWidgetBase::NativeOnFocusChanging(const FWeakWidgetPath & PreviousFocusPath, const FWidgetPath & NewWidgetPath, const FFocusEvent & InFocusEvent)
 {
 	Super::NativeOnFocusChanging(PreviousFocusPath, NewWidgetPath, InFocusEvent);
-	UE_LOG(LogClass, Warning, TEXT("NativeOnFocusChanging UserIndex %d"), InFocusEvent.GetUser());
+	//UE_LOG(LogClass, Warning, TEXT("NativeOnFocusChanging UserIndex %d"), InFocusEvent.GetUser());
 }
 
 void URegisterWidgetBase::NativeOnAddedToFocusPath(const FFocusEvent & InFocusEvent)
 {
 	Super::NativeOnAddedToFocusPath(InFocusEvent);
-	UE_LOG(LogClass, Warning, TEXT("NativeOnAddedToFocusPath"));
+	//UE_LOG(LogClass, Warning, TEXT("NativeOnAddedToFocusPath"));
 }
 
 void URegisterWidgetBase::NativeOnRemovedFromFocusPath(const FFocusEvent & InFocusEvent)
 {
 	Super::NativeOnRemovedFromFocusPath(InFocusEvent);
-	UE_LOG(LogClass, Warning, TEXT("NativeOnRemovedFromFocusPath"));
+	//UE_LOG(LogClass, Warning, TEXT("NativeOnRemovedFromFocusPath"));
 }
 
 void URegisterWidgetBase::Register()
