@@ -36,6 +36,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class USetAvatarUserWidgetBase* SetAvatarWidget;
+	UFUNCTION()
+	ESlateVisibility Test();
 
 	void LoginSuccess(struct FAccountInfo AccountInfo);
 	void AllAvatarInfoSuccess(TArray<struct FAvatarInfo> AvatarInfos);

@@ -35,5 +35,10 @@ public:
 	void Register();
 	UFUNCTION()
 	void Back();
+	UFUNCTION()
+		ESlateVisibility FocusToAccountID();
 
+	void ResetInfo();
+	UFUNCTION()
+	void OnTextChanged(const FText & Text);
 };
