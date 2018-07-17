@@ -111,6 +111,8 @@ public:
 	// Sets default values for this actor's properties
 	AHttpService();
 
+	bool IsSuccess(FHttpResponsePtr Response);
+
 	void Register(FRequest_Register RegisterInfo, class AEntrancePC* PC);
 	void RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful, class AEntrancePC* PC);
 

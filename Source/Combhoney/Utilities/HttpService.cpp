@@ -11,6 +11,22 @@ AHttpService::AHttpService()
 
 }
 
+bool AHttpService::IsSuccess(FHttpResponsePtr Response)
+{
+	TSharedPtr<FJsonObject> JsonObject;
+	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
+
+	if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject->HasField("head"))
+	{
+		int Head = (int)JsonObject->GetNumberField(TEXT("head"));
+		int ErrorCode = (int)JsonObject->GetNumberField(TEXT("errorcode"));
+		// Head가 -1이면 실패
+		return Head != -1;
+	}
+
+	return true;
+}
+
 void AHttpService::Register(FRequest_Register RegisterInfo, class AEntrancePC* PC)
 {
 	FString ContentJsonString;
@@ -36,10 +52,13 @@ void AHttpService::RegisterResponse(FHttpRequestPtr Request, FHttpResponsePtr Re
 
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
 	
-	FAccountInfo AccountInfo;
-	GetStructFromJsonString<FAccountInfo>(Response, AccountInfo);
+	if (IsSuccess(Response))
+	{
+		FAccountInfo AccountInfo;
+		GetStructFromJsonString<FAccountInfo>(Response, AccountInfo);
 
-	PC->RegistSuccess(AccountInfo);
+		PC->RegistSuccess(AccountInfo);
+	}
 }
 
 void AHttpService::Login(FRequest_Login LoginInfo, AEntrancePC* PC)
@@ -64,11 +83,13 @@ void AHttpService::LoginResponse(FHttpRequestPtr Request, FHttpResponsePtr Respo
 	/*TArray<FAvatarInfo> LoginResponses;
 
 	GetStructFromJsonStringArray<FAvatarInfo>(Response, LoginResponses);*/
+	if (IsSuccess(Response))
+	{
+		FAccountInfo AccountInfo;
+		GetStructFromJsonString<FAccountInfo>(Response, AccountInfo);
 
-	FAccountInfo AccountInfo;
-	GetStructFromJsonString<FAccountInfo>(Response, AccountInfo);
-
-	PC->LoginSuccess(AccountInfo);		
+		PC->LoginSuccess(AccountInfo);
+	}
 }
 
 void AHttpService::AllAvatarInfo(int32 Idx, AEntrancePC * PC)
@@ -92,12 +113,14 @@ void AHttpService::AllAvatarInfoResponse(FHttpRequestPtr Request, FHttpResponseP
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Log is : %s"), *(Response->GetContentAsString()));
+	if (IsSuccess(Response))
+	{
+		TArray<FAvatarInfo> AvatarInfos;
+		
+		GetStructFromJsonStringArray<FAvatarInfo>(Response, AvatarInfos);
 
-	TArray<FAvatarInfo> AvatarInfos;
-
-	GetStructFromJsonStringArray<FAvatarInfo>(Response, AvatarInfos);
-
-	PC->AllAvatarInfoSuccess(AvatarInfos);
+		PC->AllAvatarInfoSuccess(AvatarInfos);
+	}
 }
 
 // Called when the game starts or when spawned
