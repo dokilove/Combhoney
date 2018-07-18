@@ -14,6 +14,8 @@ void AEntrancePC::BeginPlay()
 {
 	EntranceWidget = UMyStaticLibrary::MakeCustomWidget<UEntranceWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/EntranceWidget.EntranceWidget_C'"), false);
 
+	EntranceWidget->VisibilityDelegate.BindDynamic(EntranceWidget, &UEntranceWidgetBase::FocusToAccountID);
+
 	MenuMap.Add(EEntranceMenuState::Entrance, EntranceWidget);
 
 	RegisterWidget = UMyStaticLibrary::MakeCustomWidget<URegisterWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/RegisterWidget.RegisterWidget_C'"));
@@ -29,7 +31,8 @@ void AEntrancePC::BeginPlay()
 	bShowMouseCursor = true;
 	SetInputMode(FInputModeUIOnly());
 
-	EntranceWidget->AccountID->SetUserFocus(this);
+	OpenMenu(EEntranceMenuState::Entrance);
+	//EntranceWidget->AccountID->SetUserFocus(this);
 
 	PopupWidget = UMyStaticLibrary::MakeCustomWidget<UPopupUserWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Utilities/PopupWidget.PopupWidget_C'"));
 	

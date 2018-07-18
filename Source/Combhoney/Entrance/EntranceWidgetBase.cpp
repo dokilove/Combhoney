@@ -68,4 +68,29 @@ void UEntranceWidgetBase::Login()
 	}
 }
 
+ESlateVisibility UEntranceWidgetBase::FocusToAccountID()
+{
+	AEntrancePC* PC = Cast<AEntrancePC>(
+		UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	if (PC && AccountID)
+	{
+		ResetInfo();
+		AccountID->SetUserFocus(PC);
+	}
+
+	return ESlateVisibility::Visible;
+}
+
+void UEntranceWidgetBase::ResetInfo()
+{
+	if (AccountID)
+	{
+		AccountID->SetText(FText());
+	}
+	if (Password)
+	{
+		Password->SetText(FText());
+	}
+}
+
 

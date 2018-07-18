@@ -3,7 +3,7 @@
 #include "PopupUserWidgetBase.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-
+#include "Kismet/GameplayStatics.h"
 
 void UPopupUserWidgetBase::NativeConstruct()
 {
@@ -26,5 +26,14 @@ void UPopupUserWidgetBase::SetMessage(FString MessageString)
 	if (Message)
 	{
 		Message->SetText(FText::FromString(MessageString));
+	}
+	if (ConfirmButton)
+	{
+		APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+		if (PC)
+		{
+			ConfirmButton->SetUserFocus(PC);
+		}
 	}
 }

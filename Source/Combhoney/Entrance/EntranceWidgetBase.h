@@ -31,4 +31,8 @@ public:
 	UFUNCTION()
 		void Login();
 
+	UFUNCTION()
+		ESlateVisibility FocusToAccountID();
+
+	void ResetInfo();
 };
