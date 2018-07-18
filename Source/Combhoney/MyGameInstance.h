@@ -26,4 +26,5 @@ public:
 	
 	void SetAccountInfo(FAccountInfo AccountInfo);
 	void SetAvatarInfo(TArray<FAvatarInfo> AvatarInfo);
+
 };

@@ -2,6 +2,10 @@
 
 #include "HttpService.h"
 #include "Entrance/EntrancePC.h"
+#include "MyGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
+#include "Tables/ErrorLogComponent.h"
 
 // Sets default values
 AHttpService::AHttpService()
@@ -9,6 +13,7 @@ AHttpService::AHttpService()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	ErrorLogTable = CreateDefaultSubobject<UErrorLogComponent>(TEXT("ErrorLogTable"));
 }
 
 bool AHttpService::IsSuccess(FHttpResponsePtr Response)
@@ -20,8 +25,9 @@ bool AHttpService::IsSuccess(FHttpResponsePtr Response)
 	if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject->HasField("errorCode"))
 	{
 		int ErrorCode = (int)JsonObject->GetNumberField(TEXT("errorCode"));
-
-		UE_LOG(LogClass, Warning, TEXT("Error code : %d\n"), ErrorCode);
+		
+		FString ErrorLog = ErrorLogTable->GetErrorLogData(ErrorCode).Desc;
+		UE_LOG(LogClass, Warning, TEXT("Error code : %s\n"), *ErrorLog);
 
 		return false;
 	}

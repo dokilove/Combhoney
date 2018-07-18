@@ -4,7 +4,6 @@
 
 void UMyGameInstance::Init()
 {
-
 }
 
 void UMyGameInstance::SetAccountInfo(FAccountInfo AccountInfo)
