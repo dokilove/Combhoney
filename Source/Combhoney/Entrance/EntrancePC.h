@@ -36,10 +36,15 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class USetAvatarUserWidgetBase* SetAvatarWidget;
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UPopupUserWidgetBase* PopupWidget;
+
+
 	void RegistSuccess(struct FAccountInfo AccountInfo);
 	void LoginSuccess(struct FAccountInfo AccountInfo);
 	void AllAvatarInfoSuccess(TArray<struct FAvatarInfo> AvatarInfos);
 	
 	void OpenMenu(EEntranceMenuState Menu);
+
+	void OpenPopup(FString Message);
 };

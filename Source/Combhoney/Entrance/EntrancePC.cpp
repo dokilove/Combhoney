@@ -8,6 +8,7 @@
 #include "Components/EditableTextBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "MyGameInstance.h"
+#include "Utilities/PopupUserWidgetBase.h"
 
 void AEntrancePC::BeginPlay()
 {
@@ -18,7 +19,7 @@ void AEntrancePC::BeginPlay()
 	RegisterWidget = UMyStaticLibrary::MakeCustomWidget<URegisterWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/RegisterWidget.RegisterWidget_C'"));
 
 	MenuMap.Add(EEntranceMenuState::Register, RegisterWidget);
-	
+
 	RegisterWidget->VisibilityDelegate.BindDynamic(RegisterWidget, &URegisterWidgetBase::FocusToAccountID);
 
 	SetAvatarWidget = UMyStaticLibrary::MakeCustomWidget<USetAvatarUserWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/SetAvatarWidget.SetAvatarWidget_C'"));
@@ -29,6 +30,15 @@ void AEntrancePC::BeginPlay()
 	SetInputMode(FInputModeUIOnly());
 
 	EntranceWidget->AccountID->SetUserFocus(this);
+
+	PopupWidget = UMyStaticLibrary::MakeCustomWidget<UPopupUserWidgetBase>(this, TEXT("WidgetBlueprint'/Game/Blueprints/Utilities/PopupWidget.PopupWidget_C'"));
+	
+	UMyGameInstance* GI = Cast<UMyGameInstance>(
+		UGameplayStatics::GetGameInstance(GetWorld()));
+	if (GI)
+	{
+		GI->PopupMessage.BindUObject(this, &AEntrancePC::OpenPopup);
+	}
 }
 
 void AEntrancePC::RegistSuccess(FAccountInfo AccountInfo)
@@ -90,5 +100,14 @@ void AEntrancePC::OpenMenu(EEntranceMenuState Menu)
 	if (MenuMap[Menu]->VisibilityDelegate.IsBound())
 	{
 		MenuMap[Menu]->VisibilityDelegate.Execute();
+	}
+}
+
+void AEntrancePC::OpenPopup(FString Message)
+{
+	if (PopupWidget)
+	{
+		PopupWidget->SetMessage(Message);
+		PopupWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }

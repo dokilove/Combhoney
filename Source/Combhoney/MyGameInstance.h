@@ -27,4 +27,8 @@ public:
 	void SetAccountInfo(FAccountInfo AccountInfo);
 	void SetAvatarInfo(TArray<FAvatarInfo> AvatarInfo);
 
+
+	DECLARE_DELEGATE_OneParam(FPopupDelegate, FString);
+
+	FPopupDelegate PopupMessage;
 };

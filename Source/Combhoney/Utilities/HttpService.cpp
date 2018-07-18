@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HttpService.h"
 #include "Entrance/EntrancePC.h"
@@ -21,12 +21,19 @@ bool AHttpService::IsSuccess(FHttpResponsePtr Response)
 	TSharedPtr<FJsonObject> JsonObject;
 	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
 
-	// ¿¡·¯ÄÚµå¿¡´Â head¸¦ ¿Ö
+	// ì—ëŸ¬ì½”ë“œì—ëŠ” headë¥¼ ì™œ
 	if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject->HasField("errorCode"))
 	{
 		int ErrorCode = (int)JsonObject->GetNumberField(TEXT("errorCode"));
 		
 		FString ErrorLog = ErrorLogTable->GetErrorLogData(ErrorCode).Desc;
+		UMyGameInstance* GI = Cast<UMyGameInstance>(
+			UGameplayStatics::GetGameInstance(GetWorld()));
+		if (GI)
+		{
+			GI->PopupMessage.ExecuteIfBound(ErrorLog);
+		}
+
 		UE_LOG(LogClass, Warning, TEXT("Error code : %s\n"), *ErrorLog);
 
 		return false;
