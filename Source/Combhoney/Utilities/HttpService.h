@@ -88,7 +88,7 @@ class COMBHONEY_API AHttpService : public AActor
 
 private:
 	FHttpModule* Http;
-	FString ApiBaseURl = "http://localhost:8000";
+	FString ApiBaseURl = "http://ec2-13-124-12-77.ap-northeast-2.compute.amazonaws.com:8000";
 
 	FString AuthorizationHeader = TEXT("Authorization");
 	void SetAuthorizationHash(FString Hash, TSharedRef<IHttpRequest>& Request);
