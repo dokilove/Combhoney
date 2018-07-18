@@ -38,4 +38,6 @@ public:
 		class UBorder* OutBorder;
 	UFUNCTION()
 		void SelectAvatar();
+
+	void SetAvatarInfo(struct FAvatarInfo* AvatarInfo);
 };

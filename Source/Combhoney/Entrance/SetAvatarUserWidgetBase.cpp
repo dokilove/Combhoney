@@ -61,6 +61,7 @@ void USetAvatarUserWidgetBase::SetAvatarInfo(TArray<FAvatarInfo>* AvatarInfo)
 			for (int i = 0; i < (*AvatarInfo).Num(); ++i)
 			{
 				UAvatarIconWidgetBase* Icon = CreateWidget<UAvatarIconWidgetBase>(PC, IconClass);
+				Icon->SetAvatarInfo(&(*AvatarInfo)[i]);
 				IconScrollBox->AddChild(Icon);
 
 			}
