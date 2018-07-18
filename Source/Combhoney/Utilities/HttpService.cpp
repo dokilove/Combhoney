@@ -16,12 +16,14 @@ bool AHttpService::IsSuccess(FHttpResponsePtr Response)
 	TSharedPtr<FJsonObject> JsonObject;
 	TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
 
-	if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject->HasField("head"))
+	// 에러코드에는 head를 왜
+	if (FJsonSerializer::Deserialize(Reader, JsonObject) && JsonObject->HasField("errorCode"))
 	{
-		int Head = (int)JsonObject->GetNumberField(TEXT("head"));
-		int ErrorCode = (int)JsonObject->GetNumberField(TEXT("errorcode"));
-		// Head가 -1이면 실패
-		return Head != -1;
+		int ErrorCode = (int)JsonObject->GetNumberField(TEXT("errorCode"));
+
+		UE_LOG(LogClass, Warning, TEXT("Error code : %d\n"), ErrorCode);
+
+		return false;
 	}
 
 	return true;
