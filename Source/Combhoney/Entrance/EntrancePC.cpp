@@ -84,6 +84,7 @@ void AEntrancePC::AllAvatarInfoSuccess(TArray<struct FAvatarInfo> AvatarInfos)
 	if (GI)
 	{
 		GI->SetAvatarInfo(AvatarInfos);
+		SetAvatarWidget->SetAvatarInfo(&AvatarInfos);
 		OpenMenu(EEntranceMenuState::SetAvatar);
 	}
 }

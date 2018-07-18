@@ -2,8 +2,12 @@
 
 #include "SetAvatarUserWidgetBase.h"
 #include "Components/TextBlock.h"
+#include "Components/ScrollBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "MyGameInstance.h"
+#include "Entrance/AvatarIconWidgetBase.h"
+#include "Utilities/HttpService.h"
+#include "Entrance/EntrancePC.h"
 
 void USetAvatarUserWidgetBase::NativeConstruct()
 {
@@ -14,6 +18,8 @@ void USetAvatarUserWidgetBase::NativeConstruct()
 	Gold = Cast<UTextBlock>(GetWidgetFromName("Gold"));
 
 	Cash = Cast<UTextBlock>(GetWidgetFromName("Cash"));
+
+	IconScrollBox = Cast<UScrollBox>(GetWidgetFromName("IconScrollBox"));
 }
 
 void USetAvatarUserWidgetBase::SetAccountInfo()
@@ -37,6 +43,27 @@ void USetAvatarUserWidgetBase::SetAccountInfo()
 		if (Cash)
 		{
 			Cash->SetText(FText::FromString(FString::Printf(TEXT("Cash: %d"), GI->MyAccountInfo.Cash)));
+		}
+	}
+}
+
+void USetAvatarUserWidgetBase::SetAvatarInfo(TArray<FAvatarInfo>* AvatarInfo)
+{
+
+	AEntrancePC* PC = Cast<AEntrancePC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
+	if (IconScrollBox && PC)
+	{
+		FStringClassReference IconRef(TEXT("WidgetBlueprint'/Game/Blueprints/Entrance/AvatarIconWidget.AvatarIconWidget_C'"));
+
+		if (UClass* IconClass = IconRef.TryLoadClass<UUserWidget>())
+		{
+			for (int i = 0; i < (*AvatarInfo).Num(); ++i)
+			{
+				UAvatarIconWidgetBase* Icon = CreateWidget<UAvatarIconWidgetBase>(PC, IconClass);
+				IconScrollBox->AddChild(Icon);
+
+			}
 		}
 	}
 }

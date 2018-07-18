@@ -30,5 +30,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UTextBlock* Cash;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UScrollBox* IconScrollBox;
+
 	void SetAccountInfo();
+
+	void SetAvatarInfo(TArray<struct FAvatarInfo>* AvatarInfo);
 };
