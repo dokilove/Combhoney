@@ -33,6 +33,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UScrollBox* IconScrollBox;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UButton* CreateAvatarButton;
+	UFUNCTION()
+	void CreateAvatar();
+
 	void SetAccountInfo();
 
 	void SetAvatarInfo(TArray<struct FAvatarInfo>* AvatarInfo);
@@ -40,4 +45,6 @@ public:
 	void SelectAvatar(class UAvatarIconWidgetBase* AvatarIcon);
 
 	struct FAvatarInfo* SelectedAvatar;
+
+	void ClearAvatarScroll();
 };

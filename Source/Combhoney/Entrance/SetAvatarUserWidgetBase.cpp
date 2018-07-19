@@ -3,6 +3,7 @@
 #include "SetAvatarUserWidgetBase.h"
 #include "Components/TextBlock.h"
 #include "Components/ScrollBox.h"
+#include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 #include "MyGameInstance.h"
 #include "Entrance/AvatarIconWidgetBase.h"
@@ -19,7 +20,25 @@ void USetAvatarUserWidgetBase::NativeConstruct()
 
 	Cash = Cast<UTextBlock>(GetWidgetFromName("Cash"));
 
+	CreateAvatarButton = Cast<UButton>(GetWidgetFromName("CreateAvatar"));
+	if (CreateAvatarButton)
+	{
+		CreateAvatarButton->OnClicked.AddDynamic(this, &USetAvatarUserWidgetBase::CreateAvatar);
+	}
+
 	IconScrollBox = Cast<UScrollBox>(GetWidgetFromName("IconScrollBox"));
+}
+
+void USetAvatarUserWidgetBase::CreateAvatar()
+{
+	UE_LOG(LogClass, Warning, TEXT("Create Avatar"));
+	ClearAvatarScroll();
+	UMyGameInstance* GI = Cast<UMyGameInstance>(
+		UGameplayStatics::GetGameInstance(GetWorld()));
+	if (GI)
+	{
+		SetAvatarInfo(&(GI->MyAvatarInfo));
+	}
 }
 
 void USetAvatarUserWidgetBase::SetAccountInfo()
@@ -49,7 +68,6 @@ void USetAvatarUserWidgetBase::SetAccountInfo()
 
 void USetAvatarUserWidgetBase::SetAvatarInfo(TArray<FAvatarInfo>* AvatarInfo)
 {
-
 	AEntrancePC* PC = Cast<AEntrancePC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
 	if (IconScrollBox && PC)
@@ -85,4 +103,9 @@ void USetAvatarUserWidgetBase::SelectAvatar(UAvatarIconWidgetBase * AvatarIcon)
 			Icon->Deselected();
 		}
 	}
+}
+
+void USetAvatarUserWidgetBase::ClearAvatarScroll()
+{
+	IconScrollBox->ClearChildren();
 }
