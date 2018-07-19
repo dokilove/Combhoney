@@ -83,8 +83,8 @@ void AEntrancePC::AllAvatarInfoSuccess(TArray<struct FAvatarInfo> AvatarInfos)
 		UGameplayStatics::GetGameInstance(GetWorld()));
 	if (GI)
 	{
-		GI->SetAvatarInfo(AvatarInfos);
-		SetAvatarWidget->SetAvatarInfo(&AvatarInfos);
+		GI->SetAvatarInfo(AvatarInfos);		
+		SetAvatarWidget->SetAvatarInfo(&(GI->MyAvatarInfo));
 		OpenMenu(EEntranceMenuState::SetAvatar);
 	}
 }

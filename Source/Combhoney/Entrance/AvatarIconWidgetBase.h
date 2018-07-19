@@ -40,4 +40,13 @@ public:
 		void SelectAvatar();
 
 	void SetAvatarInfo(struct FAvatarInfo* AvatarInfo);
+	struct FAvatarInfo* IconAvatarInfo;
+
+	void SetAvatarUserWidget(class USetAvatarUserWidgetBase*UserWidget);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class USetAvatarUserWidgetBase* AvatarUserWidget;
+	
+	void Selected();
+	void Deselected();
 };

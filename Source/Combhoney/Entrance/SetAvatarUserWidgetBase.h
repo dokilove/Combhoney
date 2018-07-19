@@ -36,4 +36,8 @@ public:
 	void SetAccountInfo();
 
 	void SetAvatarInfo(TArray<struct FAvatarInfo>* AvatarInfo);
+
+	void SelectAvatar(class UAvatarIconWidgetBase* AvatarIcon);
+
+	struct FAvatarInfo* SelectedAvatar;
 };

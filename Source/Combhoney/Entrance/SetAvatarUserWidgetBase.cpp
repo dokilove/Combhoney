@@ -61,10 +61,28 @@ void USetAvatarUserWidgetBase::SetAvatarInfo(TArray<FAvatarInfo>* AvatarInfo)
 			for (int i = 0; i < (*AvatarInfo).Num(); ++i)
 			{
 				UAvatarIconWidgetBase* Icon = CreateWidget<UAvatarIconWidgetBase>(PC, IconClass);
+				Icon->SetAvatarUserWidget(this);
 				Icon->SetAvatarInfo(&(*AvatarInfo)[i]);
 				IconScrollBox->AddChild(Icon);
 
 			}
+		}
+	}
+}
+
+void USetAvatarUserWidgetBase::SelectAvatar(UAvatarIconWidgetBase * AvatarIcon)
+{
+	SelectedAvatar = AvatarIcon->IconAvatarInfo;
+	for (int i = 0; i < IconScrollBox->GetChildrenCount(); ++i)
+	{
+		UAvatarIconWidgetBase* Icon = Cast<UAvatarIconWidgetBase>(IconScrollBox->GetChildAt(i));
+		if (AvatarIcon == Icon)
+		{
+			Icon->Selected();
+		}
+		else
+		{
+			Icon->Deselected();
 		}
 	}
 }

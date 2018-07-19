@@ -7,6 +7,7 @@
 #include "Components/Border.h"
 #include "Kismet/GameplayStatics.h"
 #include "Utilities/HttpService.h"
+#include "Entrance/SetAvatarUserWidgetBase.h"
 
 void UAvatarIconWidgetBase::NativeConstruct()
 {
@@ -27,32 +28,56 @@ void UAvatarIconWidgetBase::NativeConstruct()
 
 void UAvatarIconWidgetBase::SelectAvatar()
 {
+	UE_LOG(LogClass, Warning, TEXT("%s selected!"), *IconAvatarInfo->AvatarName);
+	AvatarUserWidget->SelectAvatar(this);
 }
 
 void UAvatarIconWidgetBase::SetAvatarInfo(FAvatarInfo * AvatarInfo)
 {
+	IconAvatarInfo = AvatarInfo;
 	if (Name)
 	{
-		Name->SetText(FText::FromString(*AvatarInfo->AvatarName));
+		Name->SetText(FText::FromString(*IconAvatarInfo->AvatarName));
 	}
 	if (Level)
 	{
-		Level->SetText(FText::FromString(FString::Printf(TEXT("%d"), AvatarInfo->Level)));
+		Level->SetText(FText::FromString(FString::Printf(TEXT("%d"), IconAvatarInfo->Level)));
 	}
 	if (Exp)
 	{
-		Exp->SetText(FText::FromString(FString::Printf(TEXT("%d"), AvatarInfo->Exp)));
+		Exp->SetText(FText::FromString(FString::Printf(TEXT("%d"), IconAvatarInfo->Exp)));
 	}
 	if (Equip1Info)
 	{
-		Equip1Info->SetText(FText::FromString(*AvatarInfo->EquipSlot1));
+		Equip1Info->SetText(FText::FromString(*IconAvatarInfo->EquipSlot1));
 	}
 	if (Equip2Info)
 	{
-		Equip2Info->SetText(FText::FromString(*AvatarInfo->EquipSlot2));
+		Equip2Info->SetText(FText::FromString(*IconAvatarInfo->EquipSlot2));
 	}
 	if (Equip3Info)
 	{
-		Equip3Info->SetText(FText::FromString(*AvatarInfo->EquipSlot3));
+		Equip3Info->SetText(FText::FromString(*IconAvatarInfo->EquipSlot3));
+	}
+}
+
+void UAvatarIconWidgetBase::SetAvatarUserWidget(USetAvatarUserWidgetBase * UserWidget)
+{
+	AvatarUserWidget = UserWidget;
+}
+
+void UAvatarIconWidgetBase::Selected()
+{
+	if (OutBorder)
+	{
+		OutBorder->SetBrushColor(FLinearColor::Green);
+	}
+}
+
+void UAvatarIconWidgetBase::Deselected()
+{
+	if (OutBorder)
+	{
+		OutBorder->SetBrushColor(FLinearColor::White);
 	}
 }
