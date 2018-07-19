@@ -13,9 +13,9 @@ void UAvatarIconWidgetBase::NativeConstruct()
 	Name = Cast<UTextBlock>(GetWidgetFromName("Name"));
 	Level = Cast<UTextBlock>(GetWidgetFromName("Level"));
 	Exp = Cast<UTextBlock>(GetWidgetFromName("Exp"));
-	Equip1 = Cast<UTextBlock>(GetWidgetFromName("Equip1Info"));
-	Equip2 = Cast<UTextBlock>(GetWidgetFromName("Equip2Info"));
-	Equip3 = Cast<UTextBlock>(GetWidgetFromName("Equip3Info"));
+	Equip1Info = Cast<UTextBlock>(GetWidgetFromName("Equip1Info"));
+	Equip2Info = Cast<UTextBlock>(GetWidgetFromName("Equip2Info"));
+	Equip3Info = Cast<UTextBlock>(GetWidgetFromName("Equip3Info"));
 	ExpBar = Cast<UProgressBar>(GetWidgetFromName("ExpBar"));
 	ItemButton= Cast<UButton>(GetWidgetFromName("IconButton"));
 	OutBorder = Cast<UBorder>(GetWidgetFromName("OutBorder"));
@@ -43,16 +43,16 @@ void UAvatarIconWidgetBase::SetAvatarInfo(FAvatarInfo * AvatarInfo)
 	{
 		Exp->SetText(FText::FromString(FString::Printf(TEXT("%d"), AvatarInfo->Exp)));
 	}
-	if (Equip1)
+	if (Equip1Info)
 	{
-		Equip1->SetText(FText::FromString(*AvatarInfo->EquipSlot1));
+		Equip1Info->SetText(FText::FromString(*AvatarInfo->EquipSlot1));
 	}
-	if (Equip2)
+	if (Equip2Info)
 	{
-		Equip2->SetText(FText::FromString(*AvatarInfo->EquipSlot2));
+		Equip2Info->SetText(FText::FromString(*AvatarInfo->EquipSlot2));
 	}
-	if (Equip3)
+	if (Equip3Info)
 	{
-		Equip3->SetText(FText::FromString(*AvatarInfo->EquipSlot3));
+		Equip3Info->SetText(FText::FromString(*AvatarInfo->EquipSlot3));
 	}
 }

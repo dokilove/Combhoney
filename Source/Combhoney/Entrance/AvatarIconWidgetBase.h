@@ -25,11 +25,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UTextBlock* Exp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UTextBlock* Equip1;
+		class UTextBlock* Equip1Info;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UTextBlock* Equip2;
+		class UTextBlock* Equip2Info;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UTextBlock* Equip3;
+		class UTextBlock* Equip3Info;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UButton* ItemButton;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
